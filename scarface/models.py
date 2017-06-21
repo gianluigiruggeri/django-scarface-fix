@@ -587,6 +587,9 @@ class PushMessage(models.Model):
     extra_payload = models.TextField(blank=True, null=True)
     receiver_arn = models.TextField(blank=True, null=True)
     message_type = models.PositiveSmallIntegerField(default=0)
+    
+    notification_type = models.PositiveSmallIntegerField(default=0)
+    
 
     def as_dict(self):
         d = {
@@ -595,7 +598,8 @@ class PushMessage(models.Model):
             'context_id': self.context_id,
             'badge_count': self.badge_count,
             'sound': self.sound,
-            'has_new_content': self.has_new_content
+            'has_new_content': self.has_new_content,
+            'notification_type': self.notification_type
         }
         if self.extra_payload:
             d.update(self.extra_payload)
