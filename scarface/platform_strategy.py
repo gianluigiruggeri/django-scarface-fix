@@ -52,7 +52,7 @@ class PlatformStrategy(with_metaclass(ABCMeta)):
         return {self.platform.platform: json.dumps(data)}
 
     def format_push(self, badgeCount, context, context_id, has_new_content, message,
-            sound):
+            sound, notification_type):
         if message:
             message = self.trim_message(message)
 
@@ -60,8 +60,9 @@ class PlatformStrategy(with_metaclass(ABCMeta)):
             'aps': {
                 "content-available": has_new_content,
             },
-            "ctx": context,
-            "id": context_id
+            "context_title": context,
+            "context_id": context_id,
+            "notification_type": notification_type
         }
 
         if message and len(message) > 0:
@@ -108,7 +109,9 @@ class APNPlatformStrategy(PlatformStrategy):
             message.context,
             message.context_id,
             message.has_new_content,
-            message.message, message.sound
+            message.message, 
+            message.sound,
+            message.notification_type
         )
 
         if message.extra_payload:
@@ -136,7 +139,9 @@ class APNSSandboxPlatformStrategy(PlatformStrategy):
             message.context,
             message.context_id,
             message.has_new_content,
-            message.message, message.sound
+            message.message, 
+            message.sound,
+            message.notification_type
         )
 
         if message.extra_payload:
