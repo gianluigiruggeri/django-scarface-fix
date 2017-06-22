@@ -589,6 +589,7 @@ class PushMessage(models.Model):
     message_type = models.PositiveSmallIntegerField(default=0)
     
     notification_type = models.PositiveSmallIntegerField(default=0)
+    click_action = models.CharField(null=True, max_length=20)
     
 
     def as_dict(self):
