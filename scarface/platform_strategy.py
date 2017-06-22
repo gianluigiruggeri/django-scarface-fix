@@ -165,7 +165,16 @@ class GCMPlatformStrategy(PlatformStrategy):
         """
         data = message.as_dict()
         h = hash(frozenset(data.items()))
+        notification_field = {
+            "text": message.message
+        }
+
+        if message.click_action:
+            notification_field["click_action"] = message.click_action
+
+        params = {"collapse_key": h, "data": data, "notification": notification_field }
+
         return super(
             GCMPlatformStrategy,
             self
-        ).format_payload({"collapse_key": h, "data": data})
+        ).format_payload(params)
